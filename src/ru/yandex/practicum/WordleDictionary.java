@@ -11,4 +11,18 @@ public class WordleDictionary {
 
     private List<String> words;
 
+    WordleDictionary(List<String> words) {
+        this.words = words;
+    }
+
+    public int getSize(){
+        return words.size();
+    }
+
+    public String getElement(int index) {
+        return words.get(index);
+    }
+
+
+
 }
