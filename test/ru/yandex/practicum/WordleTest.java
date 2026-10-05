@@ -20,18 +20,19 @@ class WordleGameTest {
 
     //Создаёт игру
     private String runGame(String input) {
-
         WordleGame game = new WordleGame(createDictionary());
-
         ByteArrayOutputStream output = new ByteArrayOutputStream();
+        PrintStream oldOut = System.out;
 
-        try (PrintStream oldOut = System.out) {
+        try {
             System.setOut(new PrintStream(output, true, StandardCharsets.UTF_8));
-            game.playGame(new Scanner(new ByteArrayInputStream (input.getBytes(StandardCharsets.UTF_8))));
+            game.playGame(new Scanner(new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8))));
 
+            return output.toString(StandardCharsets.UTF_8);
+
+        } finally {
+            System.setOut(oldOut);
         }
-
-        return output.toString(StandardCharsets.UTF_8);
     }
 
     // 1. Пустой ввод должен привести к генерации подсказки
