@@ -26,10 +26,22 @@ public class WordleGame {
     private int steps;
     private final WordleDictionary dictionary;
 
+    //Флаг позволяющий заканчивать игру после каждого ветвления игрового цикла
+    private final boolean isTest;
+
     WordleGame(WordleDictionary dictionary) {
         this.dictionary = dictionary;
         this.answer = generateWord();
         this.steps = 1;
+        this.isTest = false;
+    }
+
+    //Конструктор для тест кейсов с заранее известным ответом и настроенным тестовым флагом
+    WordleGame(WordleDictionary dictionary, String answer, boolean isTest) {
+        this.dictionary = dictionary;
+        this.answer = answer;
+        this.steps = 1;
+        this.isTest = isTest;
     }
 
     public void playGame(Scanner scanner) {
@@ -45,9 +57,15 @@ public class WordleGame {
                     playerWord = generateTint(hintsCount);
                     System.out.println("Подсказка: " + playerWord);
                     hintsCount++;
+
+                    if (this.isTest) return;
                 }
+
                 if (playerWord.length() != 5) {
                     System.out.println("Слово должно содержать 5 букв");
+
+                    if (this.isTest) return;
+
                     continue;
                 }
 
@@ -62,6 +80,8 @@ public class WordleGame {
                 System.out.println(playerWord);
                 System.out.println(tintString);
 
+
+
                 if (playerWord.equals(answer)) {
                     System.out.println("Поздравляем! Вы угадали слово!");
                     return;
@@ -72,8 +92,12 @@ public class WordleGame {
                 if (steps <= 6) {
                     System.out.println("Осталось попыток: " + (7 - steps));
                 }
+
+
             } catch (NotARussianWordException | NotInDictionaryException exception) {
                 System.out.println(exception.getMessage());
+
+                if (this.isTest) return;
             }
         }
 

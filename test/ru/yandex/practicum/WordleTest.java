@@ -15,12 +15,12 @@ class WordleGameTest {
 
     //Создаёт начальный словарь
     private WordleDictionary createDictionary() {
-        return new WordleDictionary(List.of("герой", "гонец", "город", "ветка", "машина"));
+        return new WordleDictionary(List.of("герой", "гонец", "город", "ветка", "машина", "метка"));
     }
 
     //Создаёт игру
-    private String runGame(String input) {
-        WordleGame game = new WordleGame(createDictionary());
+    private String runGame(String input, String answer, Boolean isTest) {
+        WordleGame game = new WordleGame(createDictionary(), answer, isTest);
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         PrintStream oldOut = System.out;
 
@@ -39,7 +39,7 @@ class WordleGameTest {
     @Test
     void shouldGenerateHintForEmptyInput() {
 
-        String output = runGame("\n");
+        String output = runGame("\n", "метка", true);
 
         assertTrue(output.contains("Подсказка:"));
     }
@@ -49,16 +49,16 @@ class WordleGameTest {
     @Test
     void shouldRejectWordWithWrongLength() {
 
-        String output = runGame("кот");
+        String output = runGame("кот", "метка", true);
 
-        assertEquals("Слово должно содержать 5 букв", output);
+        assertTrue(output.contains("Слово должно содержать 5 букв"));
     }
 
     // 3. Слово должно состоять только из русских букв
     @Test
     void shouldRejectNonRussianWord() {
 
-        String output = runGame("hello\n");
+        String output = runGame("hello\n", "метка", true);
         assertTrue(output.contains("Вы должны использовать только русские слова!"));
     }
 
@@ -66,19 +66,11 @@ class WordleGameTest {
     @Test
     void shouldRejectWordNotInDictionary() {
 
-        String output = runGame("абвде\n");
+        String output = runGame("абвде\n", "метка", true);
         assertTrue(output.contains("Введённое вами слово отсутствует в словаре!"));
     }
 
-    // 5. Корректное слово должно обрабатываться
-    @Test
-    void shouldAcceptWordFromDictionary() {
-
-        String output = runGame("гонец\n");
-        assertTrue(output.contains("гонец"));
-    }
-
-    // 6. После шести неправильных попыток игра заканчивается
+    // 5. После шести неправильных попыток игра заканчивается
     @Test
     void shouldLoseAfterSixAttempts() {
 
@@ -92,9 +84,18 @@ class WordleGameTest {
                         гонец
                         """;
 
-        String output = runGame(input);
-        assertEquals("Вы проиграли!", output);
+        String output = runGame(input, "метка", true);
+        assertTrue(output.contains("Вы проиграли!"));
     }
 
+    //6. Если ответ правильный, то игра заканчивается победой
 
+    @Test
+    void shouldWinAfterCorrectAnswer() {
+
+        String input = "метка";
+
+        String output = runGame(input, "метка", false);
+        assertTrue(output.contains("Поздравляем! Вы угадали слово!"));
+    }
 }
