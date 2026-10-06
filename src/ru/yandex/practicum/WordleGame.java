@@ -81,7 +81,6 @@ public class WordleGame {
                 System.out.println(tintString);
 
 
-
                 if (playerWord.equals(answer)) {
                     System.out.println("Поздравляем! Вы угадали слово!");
                     return;

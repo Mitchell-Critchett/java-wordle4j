@@ -15,14 +15,13 @@ public class WordleDictionary {
         this.words = words;
     }
 
-    public int getSize(){
+    public int getSize() {
         return words.size();
     }
 
     public String getElement(int index) {
         return words.get(index);
     }
-
 
 
 }
