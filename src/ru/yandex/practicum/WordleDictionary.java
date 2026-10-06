@@ -9,6 +9,19 @@ import java.util.List;
  */
 public class WordleDictionary {
 
-    private List<String> words;
+    private final List<String> words;
+
+    WordleDictionary(List<String> words) {
+        this.words = words;
+    }
+
+    public int getSize() {
+        return words.size();
+    }
+
+    public String getElement(int index) {
+        return words.get(index);
+    }
+
 
 }
