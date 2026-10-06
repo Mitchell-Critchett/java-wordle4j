@@ -49,9 +49,9 @@ class WordleGameTest {
     @Test
     void shouldRejectWordWithWrongLength() {
 
-        String output = runGame("кот\n");
+        String output = runGame("кот");
 
-        assertTrue(output.contains("Слово должно содержать 5 букв"));
+        assertEquals("Слово должно содержать 5 букв", output);
     }
 
     // 3. Слово должно состоять только из русских букв
@@ -83,15 +83,17 @@ class WordleGameTest {
     void shouldLoseAfterSixAttempts() {
 
         String input =
-                "гонец\n" +
-                        "гонец\n" +
-                        "гонец\n" +
-                        "гонец\n" +
-                        "гонец\n" +
-                        "гонец\n";
+                """
+                        гонец
+                        гонец
+                        гонец
+                        гонец
+                        гонец
+                        гонец
+                        """;
 
         String output = runGame(input);
-        assertTrue(output.contains("Вы проиграли!"));
+        assertEquals("Вы проиграли!", output);
     }
 
 

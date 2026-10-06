@@ -32,13 +32,6 @@ public class WordleGame {
         this.steps = 1;
     }
 
-    //Конструктор для тестов (с заранее определённым ответом)
-    WordleGame(WordleDictionary dictionary, String answer) {
-        this.dictionary = dictionary;
-        this.answer = answer;
-        this.steps = 1;
-    }
-
     public void playGame(Scanner scanner) {
 
         //Переменная для подсчёта верных букв в прошлой подсказке
@@ -48,7 +41,6 @@ public class WordleGame {
             try {
                 System.out.println("Введите слово: ");
                 String playerWord = scanner.nextLine().toLowerCase();
-                String tint;
                 if (playerWord.isEmpty()) {
                     playerWord = generateTint(hintsCount);
                     System.out.println("Подсказка: " + playerWord);
